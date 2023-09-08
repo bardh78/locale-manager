@@ -1,0 +1,53 @@
+{
+    "name": "bardh78/locale-manager",
+    "description": "Laravel Locale Manager",
+    "keywords": [
+        "bardh78",
+        "laravel-locale-manager"
+    ],
+    "homepage": "https://github.com/bardh78/locale-manager",
+    "license": "MIT",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Bardhyl Fejzullahu",
+            "email": "bardh7@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=8.2",
+        "illuminate/support": "^10.0|^11.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^7.0|^8.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Autoluminescent\\LocaleManager\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Autoluminescent\\LocaleManager\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
+
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Autoluminescent\\LocaleManager\\LocaleManagerServiceProvider"
+            ],
+            "aliases": {
+                "LaravelMailLogger": "Autoluminescent\\LocaleManager\\LocaleManagerServiceProvider"
+            }
+        }
+    }
+}
