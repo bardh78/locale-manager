@@ -11,11 +11,16 @@ class LocaleManagerServiceProvider extends ServiceProvider
     {
         $this->app->singleton(LocaleManager::class);
         $router->aliasMiddleware('locale', SetLocale::class);
+        $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
 
         if ($this->app->runningInConsole()) {
             $this->publishes([
                 __DIR__ . '/../config/config.php' => config_path('locale.php'),
             ], 'config');
+
+            $this->publishes([
+                __DIR__.'/../database/migrations/' => database_path('migrations')
+            ], 'migrations');
         }
     }
 

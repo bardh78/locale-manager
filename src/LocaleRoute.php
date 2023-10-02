@@ -91,6 +91,7 @@ use Closure;
  * @method LocaleRoute xh(string $uri) Xhosa
  * @method LocaleRoute zh(string $uri) Chinese
  * @method LocaleRoute zu(string $uri) Zulu
+ * @method LocaleRoute all(string $uri) All Languages
  */
 class LocaleRoute
 {
@@ -188,6 +189,14 @@ class LocaleRoute
         }
 
         $localesByKey = LocaleManager::getLocalesByKey();
+
+        if ($language === 'all'){
+            foreach ($localesByKey as $langKey){
+                $this->route($this->method, $this->routes[0]['uri'], $langKey);
+            }
+
+            return $this;
+        }
 
         if (empty($localesByKey)) {
             throw new RuntimeException("No locales have been defined in config.locale.");

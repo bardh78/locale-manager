@@ -33,6 +33,12 @@ class SetLocale
     private function getLocaleFromSession(mixed $sessionName)
     {
         $localeInputFromQueryString = request()->input('language', LocaleManager::getDefaultLocale());
+
+        $userLocale = auth()->user()->locale ?? null;
+        if ($userLocale) {
+            return $userLocale;
+        }
+
         if (request()->has('language')) {
             request()->session()->put($this->sessionKey, $localeInputFromQueryString);
 
