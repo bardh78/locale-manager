@@ -1,11 +1,5 @@
 # Very short description of the package
-
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/bardh78/locale-manager.svg?style=flat-square)](https://packagist.org/packages/bardh78/locale-manager)
-[![Total Downloads](https://img.shields.io/packagist/dt/bardh78/locale-manager.svg?style=flat-square)](https://packagist.org/packages/bardh78/locale-manager)
-![GitHub Actions](https://github.com/bardh78/locale-manager/actions/workflows/main.yml/badge.svg)
-
-This is where your description should go. Try and limit it to a paragraph or two, and maybe throw in a mention of what PSRs you support to avoid any confusion with users and contributors.
-
+This package is for personal use.
 ## Installation
 
 You can install the package via composer:
