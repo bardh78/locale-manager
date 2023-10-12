@@ -11,9 +11,9 @@ if (! function_exists('translate')) {
     function translate($key, $isAttribute = false)
     {
         if ($isAttribute){
-            return strtolower(__('webapp.registration.regular.last_name'));
+            return strtolower(__($key));
         }
 
-        return __('webapp.registration.regular.last_name');
+        return __($key);
     }
 }
