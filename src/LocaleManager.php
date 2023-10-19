@@ -9,14 +9,12 @@ class LocaleManager
 {
     private array|Collection $locales;
     private string $defaultLocale;
-    private string $sessionLocaleSwitchMethods;
     private array $localesByKey;
 
     public function __construct()
     {
         $this->locales = collect(config('locale.locales'));
         $this->defaultLocale = config('locale.default');
-        $this->sessionLocaleSwitchMethods = config('locale.session_locale_switch_query_string');
 
         $this->localesByKey = $this->locales->pluck('key')->toArray();
     }
@@ -35,10 +33,7 @@ class LocaleManager
     {
         return app()->make(LocaleManager::class)->defaultLocale;
     }
-    public static function getSessionLocaleSwitchMethods(): string
-    {
-        return app()->make(LocaleManager::class)->sessionLocaleSwitchMethods;
-    }
+
 
     public static function getCurrentLocale(): string
     {

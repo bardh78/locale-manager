@@ -44,7 +44,4 @@ return [
             'abbreviation' => 'EN',
         ],
     ],
-
-    'session_locale_switch_query_string' => 'lang',
-
 ];

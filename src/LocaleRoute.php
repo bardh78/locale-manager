@@ -104,18 +104,18 @@ class LocaleRoute
     protected static array $groupStack = [];
     protected array $middleware = ['locale'];
 
-    public function __construct($uri, $method, $controller, $action)
+    public function __construct($method, $controller, $action)
     {
         $this->controller = $controller;
         $this->action = $action;
         $this->method = $method;
         $this->defaultLocale = LocaleManager::getDefaultLocale();
 
-        if (is_array($uri)) {
-            $this->addRoutesFromArray($uri);
-        } else {
-            $this->route($this->method, $uri);
-        }
+//        if (is_array($uri)) {
+//            $this->addRoutesFromArray($uri);
+//        } else {
+//            $this->route($this->method, $uri);
+//        }
     }
 
     public static function session(string $name, Closure $callback): void
@@ -134,19 +134,19 @@ class LocaleRoute
        // array_pop(static::$groupStack);
     }
 
-    public static function get($defaultLocaleUri, array $controller): LocaleRoute
+    public static function get(array $controller): LocaleRoute
     {
-        return self::actionMethod('GET', $defaultLocaleUri, $controller);
+        return self::actionMethod('GET', $controller);
     }
 
-    public static function post($defaultLocaleUri, array $controller): LocaleRoute
+    public static function post(array $controller): LocaleRoute
     {
-        return self::actionMethod('POST', $defaultLocaleUri, $controller);
+        return self::actionMethod('POST', $controller);
     }
 
-    public static function actionMethod(string $method, $defaultLocaleUri, array $controller): LocaleRoute
+    public static function actionMethod(string $method, array $controller): LocaleRoute
     {
-        $instance = new self($defaultLocaleUri, $method, $controller[0], $controller[1]);
+        $instance = new self($method, $controller[0], $controller[1]);
 
         if (count(static::$groupStack) > 0) {
             $currentGroupAttributes = end(static::$groupStack);
@@ -167,6 +167,10 @@ class LocaleRoute
         foreach ($this->routes as $route) {
             $routePrefix = $route['prefix'];
             $routeName = $routePrefix ? "{$routePrefix}.{$name}" : "{$this->defaultLocale}.{$name}";
+
+            if($route['prefix'] === $this->defaultLocale){
+                $routePrefix = '';
+            };
 
             Route::controller($this->controller)->group(function () use ($routePrefix, $routeName, $route) {
                 $routeDefinition = Route::prefix($routePrefix)
