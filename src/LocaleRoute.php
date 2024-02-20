@@ -2,7 +2,10 @@
 
 namespace Autoluminescent\LocaleManager;
 
+use Illuminate\Routing\Router;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Str;
 use InvalidArgumentException;
 use RuntimeException;
 use Closure;
@@ -134,6 +137,31 @@ class LocaleRoute
        // array_pop(static::$groupStack);
     }
 
+    public static function getAllRoutes()
+    {
+        $router = app()->make(Router::class);
+        $routes = collect($router->getRoutes())->map(function ($route) {
+            return self::getRouteInformation($route);
+        });
+
+        return $routes;
+    }
+
+    public static function getLocaleRoutes(){
+        return self::getAllRoutes()->where('is_locale_route', true)->all();
+    }
+
+    private static function getRouteInformation(\Illuminate\Routing\Route $route)
+    {
+        $middleware = $route->getAction('middleware') ?? [];
+        return [
+            'uri' => $route->uri(),
+            'name' => $route->getName(),
+            'middleware' => $middleware,
+            'is_locale_route' => in_array(\Autoluminescent\LocaleManager\Middleware\LocaleRoute::class, $middleware),
+        ];
+    }
+
     public static function get(array $controller): LocaleRoute
     {
         return self::actionMethod('GET', $controller);
@@ -175,6 +203,7 @@ class LocaleRoute
             Route::controller($this->controller)->group(function () use ($routePrefix, $routeName, $route) {
                 $routeDefinition = Route::prefix($routePrefix)
                     ->get($route['uri'], [$this->controller, $this->action])
+                    ->middleware(\Autoluminescent\LocaleManager\Middleware\LocaleRoute::class)
                     ->name($routeName);
                 // Apply middleware from group attributes, if any
                 if (!empty($this->middleware)) {
